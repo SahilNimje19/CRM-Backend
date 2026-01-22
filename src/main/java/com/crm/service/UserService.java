@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerUserDetailsService implements UserDetailsService {
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
@@ -19,14 +19,13 @@ public class CustomerUserDetailsService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println(username);
         return userRepository.findByUsername(username).orElseThrow(() ->
                 new UsernameNotFoundException("User not found"));
     }
 
-    public String addUser(User user) {
-        // Ensure 'passwordEncoder' (lowercase 'p') is injected at the top
+    public User addUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return "User added successfully";
+        return userRepository.save(user);
     }
 }
