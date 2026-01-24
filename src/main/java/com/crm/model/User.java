@@ -1,11 +1,14 @@
 package com.crm.model;
 
+import com.crm.Enum.Role;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,15 +18,22 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "username", nullable = false, unique = false)
     private String username;
 
     @Column(nullable = false)
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-    // --------- Getters & Setters ---------
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Long getId() {
         return id;
@@ -33,13 +43,10 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getUserName() {
-        return username;
-    }
-
-    public void setUserName(String username) {
+    public void setUsername(String username) {
         this.username = username;
     }
+
 
     @Override
     public String getPassword() {
@@ -50,19 +57,14 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRole() {
-        return role;
-    }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    // --------- Spring Security Methods ---------
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList(); // can improve later
+        System.out.println(role.name());
+        return List.of(
+                new SimpleGrantedAuthority("ROLE_" + role.name())
+        ); // can improve later
     }
 
     @Override

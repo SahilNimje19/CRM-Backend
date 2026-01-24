@@ -1,6 +1,7 @@
 package com.crm.service.Impl;
 
 import com.crm.DTOs.EmployeeCreateDto;
+import com.crm.Enum.Role;
 import com.crm.model.Employee;
 import com.crm.model.Project;
 import com.crm.model.User;
@@ -33,9 +34,9 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new RuntimeException("Email already exists");
         }
         User user = new User();
-        user.setUserName(employeeDetails.getUsername());
+        user.setUsername(employeeDetails.getUsername());
         user.setPassword(passwordEncoder.encode(employeeDetails.getPassword()));
-        user.setRole("EMPLOYEE");
+        user.setRole(Role.EMPLOYEE);
         userRepository.save(user);
 
         Employee employee = new Employee();
@@ -45,7 +46,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setStatus(employeeDetails.getStatus());
         employee.setDesignation(employeeDetails.getDesignation());
         employee.setSalary(employeeDetails.getSalary());
-        employee.setJoiningDate(LocalDate.parse(employeeDetails.getJoiningDate()));
+        employee.setJoiningDate(employeeDetails.getJoiningDate());
         employee.setUser(user);
 
         return employeeRepository.save(employee);

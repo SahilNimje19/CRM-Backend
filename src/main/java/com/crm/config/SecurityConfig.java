@@ -1,5 +1,6 @@
     package com.crm.config;
 
+    import com.crm.Enum.Role;
     import org.springframework.context.annotation.Bean;
     import org.springframework.context.annotation.Configuration;
     import org.springframework.security.config.Customizer;
@@ -12,9 +13,7 @@
     import org.springframework.web.cors.CorsConfiguration;
     import org.springframework.web.cors.CorsConfigurationSource;
     import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
     import java.util.List;
-
     @Configuration
     @EnableWebSecurity
     @EnableMethodSecurity
@@ -46,7 +45,8 @@
                     .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(auth -> auth.requestMatchers("/public/**", "/", "/public")
                             .permitAll().requestMatchers("/admin/**")
-                            .authenticated().anyRequest().authenticated())
+                            .hasRole(Role.ADMIN.name())
+                            .anyRequest().authenticated())
                     .formLogin(Customizer.withDefaults())
                     .logout(Customizer.withDefaults())
                     .httpBasic(Customizer.withDefaults());
