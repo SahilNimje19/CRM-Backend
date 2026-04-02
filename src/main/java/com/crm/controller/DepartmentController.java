@@ -1,9 +1,7 @@
 package com.crm.controller;
 
 import com.crm.model.Department;
-import com.crm.model.User;
 import com.crm.service.DeptService;
-import com.crm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
