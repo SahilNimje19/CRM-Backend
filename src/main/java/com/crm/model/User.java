@@ -18,7 +18,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, unique = false)
+    @Column(name = "user_name", nullable = false, unique = false)
     private String username;
 
     @Column(nullable = false)
@@ -26,6 +26,17 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public Role getRole() {
         return role;
@@ -62,9 +73,8 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println(role.name());
-        return List.of(
-                new SimpleGrantedAuthority("ROLE_" + role.name())
-        ); // can improve later
+        // ⚠️ IMPORTANT: You MUST add "ROLE_" here!
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override

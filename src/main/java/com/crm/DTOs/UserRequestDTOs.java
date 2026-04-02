@@ -6,14 +6,8 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class UserRequestDTOs {
-    private String userName;
+    private String username;
     private String password;
+    private String email;
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
 }

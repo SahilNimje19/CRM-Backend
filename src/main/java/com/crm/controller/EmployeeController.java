@@ -29,6 +29,7 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getAllEmployees(){
         return employeeService.getAllEmployees();
     }
+
     @PutMapping("/assign/{projectId}/{employeeId}")
     public String assignProject(
             @PathVariable long projectId,

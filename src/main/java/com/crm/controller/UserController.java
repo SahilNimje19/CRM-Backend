@@ -11,14 +11,15 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
 
-    @GetMapping("/admin/")
+    @PreAuthorize("hasAnyRole('EMPLOYEE','ADMIN')")
+    @GetMapping("/admin")
     public String userSecurity() {
         return "User Logged IN";
     }
@@ -28,12 +29,13 @@ public class UserController {
     public String about(){
         return "About public page";
     }
-        @PostMapping("/add")
-        public ResponseEntity<String> addUser(@RequestBody UserRequestDTOs userRequestDTO) {
+     @PostMapping("/add")
+     public ResponseEntity<String> addUser(@RequestBody UserRequestDTOs userRequestDTO) {
             User u = new User();
 
             // FIX: Use setUsername() [lowercase 'n'] to match the model field and setter
-            u.setUsername(userRequestDTO.getUserName());
+            u.setUsername(userRequestDTO.getUsername());
+            u.setEmail(userRequestDTO.getEmail()); // this is for email
 
             // FIX: Pass the raw password; your UserService.addUser() already encodes it
             u.setPassword(userRequestDTO.getPassword());
@@ -43,7 +45,7 @@ public class UserController {
 
             return ResponseEntity.status(HttpStatus.CREATED)
                     .body("User added successfully");
-        }
+    }
     @PostMapping("admin/register")
     public User createUser(@RequestBody User user){
         return userService.createUser(user);
