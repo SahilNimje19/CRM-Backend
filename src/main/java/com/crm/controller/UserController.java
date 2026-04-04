@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,22 +29,23 @@ public class UserController {
     public String about(){
         return "About public page";
     }
-        @PostMapping("/add")
-        public ResponseEntity<String> addUser(@RequestBody UserRequestDTOs userRequestDTO) {
-            User u = new User();
+    @PostMapping("/add")
+    public ResponseEntity<String> addUser(@RequestBody UserRequestDTOs userRequestDTO) {
 
-            // FIX: Use setUsername() [lowercase 'n'] to match the model field and setter
-            u.setUsername(userRequestDTO.getUserName());
+        User u = new User();
+        // 👇 Notice the capital 'N' here
+        u.setUsername(userRequestDTO.getUserName());
 
-            // FIX: Pass the raw password; your UserService.addUser() already encodes it
-            u.setPassword(userRequestDTO.getPassword());
-            u.setRole(Role.EMPLOYEE); // Default role for new users
+        u.setEmail(userRequestDTO.getEmail());
+        u.setPassword(userRequestDTO.getPassword());
+        u.setRole(Role.EMPLOYEE);
 
-            userService.addUser(u);
+        userService.addUser(u);
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("User added successfully");
-        }
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("User added successfully");
+    }
+
     @PostMapping("admin/register")
     public User createUser(@RequestBody User user){
         return userService.createUser(user);

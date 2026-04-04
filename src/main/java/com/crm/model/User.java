@@ -2,6 +2,8 @@ package com.crm.model;
 
 import com.crm.Enum.Role;
 import jakarta.persistence.*;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,9 +20,15 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email must be valid")
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(name = "username", nullable = false, unique = false)
     private String username;
 
+    @NotBlank(message = "Password is required")
     @Column(nullable = false)
     private String password;
 
@@ -47,7 +55,6 @@ public class User implements UserDetails {
         this.username = username;
     }
 
-
     @Override
     public String getPassword() {
         return password;
@@ -57,14 +64,19 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         System.out.println(role.name());
         return List.of(
-                new SimpleGrantedAuthority("ROLE_" + role.name())
-        ); // can improve later
+                new SimpleGrantedAuthority("ROLE_" + role.name())); // can improve later
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
