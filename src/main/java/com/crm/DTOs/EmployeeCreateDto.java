@@ -4,6 +4,7 @@ import com.crm.Enum.EmployeeStatus;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 
 public class EmployeeCreateDto {
@@ -12,7 +13,7 @@ public class EmployeeCreateDto {
     private String phone;
     private String designation;
     private EmployeeStatus status;
-    private String joiningDate;
+    private LocalDate joiningDate;
     private BigDecimal salary;
     private String username;
     private String password;
@@ -57,11 +58,11 @@ public class EmployeeCreateDto {
         this.status = status;
     }
 
-    public String getJoiningDate() {
+    public LocalDate getJoiningDate() {
         return joiningDate;
     }
 
-    public void setJoiningDate(String joiningDate) {
+    public void setJoiningDate(LocalDate joiningDate) {
         this.joiningDate = joiningDate;
     }
 

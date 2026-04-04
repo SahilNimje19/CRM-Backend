@@ -2,11 +2,14 @@ package com.crm.service;
 
 import com.crm.model.Department;
 import com.crm.repository.DeptRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class DeptService {
+    @Autowired
     private DeptRepository deptRepository;
+
     public Department createDepartment(Department department) {
         return deptRepository.save(department);
     }

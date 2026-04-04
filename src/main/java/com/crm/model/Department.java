@@ -26,8 +26,7 @@ public class Department {
 
     private String description;
 
-    @OneToMany()
-    @JoinColumn(name="head_id")
+    @OneToMany(mappedBy = "department")
     List<Employee> employees = new ArrayList<>();
 
 }
