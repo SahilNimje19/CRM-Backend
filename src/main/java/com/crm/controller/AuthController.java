@@ -57,11 +57,12 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
         User user = new User();
         user.setUsername(request.getUsername());
+        user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
         user.setRole(Role.EMPLOYEE);
         
         User savedUser = userService.addUser(user);
-        String token = jwtUtil.generateToken(savedUser.getUsername());
+        String token = jwtUtil.generateToken(savedUser.getEmail());
         
         AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo(
             savedUser.getId(),
